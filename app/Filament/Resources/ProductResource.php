@@ -36,6 +36,8 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = 'shop';
+    protected static ?int $navigationSort = 0;
+
 
     public static function form(Form $form): Form
     {
@@ -45,8 +47,8 @@ class ProductResource extends Resource
                     Section::make()->schema([
                         TextInput::make('name')
                             ->required()
+                            ->unique(ignoreRecord: true)
                             ->live(onBlur: true)
-                            ->unique()
                             ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
                                 if ($operation !== 'create') {
                                     return;
@@ -64,10 +66,11 @@ class ProductResource extends Resource
                         TextInput::make('price')
                             ->numeric()
                             ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                            ->required(),
+                            ->required()
+                            ->requiredUnless('field', 'value'),
                         TextInput::make('sku')
                             ->label('SKU(Stock Keeping Unit')
-                            ->unique()
+                            ->unique(ignoreRecord: true)
                             ->required(),
                         TextInput::make('quantity')
                             ->numeric()
@@ -150,7 +153,11 @@ class ProductResource extends Resource
             ])
 
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
