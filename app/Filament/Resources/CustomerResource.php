@@ -5,10 +5,19 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CustomerResource\Pages;
 use App\Filament\Resources\CustomerResource\RelationManagers;
 use App\Models\Customer;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -18,12 +27,30 @@ class CustomerResource extends Resource
     protected static ?string $model = Customer::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?int $navigationSort = 2;
+    protected static ?string $navigationGroup = 'shop';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Section::make()
+                    ->schema([
+                        TextInput::make('name')
+                            ->maxValue(50)
+                            ->required(),
+                        TextInput::make('email')
+                            ->label('Email address')
+                            ->required()
+                            ->email()
+                            ->unique(ignoreRecord: true),
+                        TextInput::make('phone')
+                            ->maxValue(50),
+                        DatePicker::make('date_of_birth'),
+                        TextInput::make('address')
+                            ->required()
+                            ->columnSpan('full'),
+                    ])->columns(2)
             ]);
     }
 
@@ -31,13 +58,31 @@ class CustomerResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('phone')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('address')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('date_of_birth')
+                    ->sortable()
+                    ->date(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -38,6 +38,12 @@ class ProductResource extends Resource
     protected static ?string $navigationGroup = 'shop';
     protected static ?int $navigationSort = 0;
 
+    protected static ?string $recordTitleAttributef = 'name';
+    public static function getNavigationbadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
 
     public static function form(Form $form): Form
     {

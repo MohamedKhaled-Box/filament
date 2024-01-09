@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone');
             $table->date('date_of_birth');
-            $table->date('address');
+            $table->string('address');
             $table->timestamps();
         });
     }
