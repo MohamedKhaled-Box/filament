@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\CategoryResource\RelationManagers\ProductsRelationManager;
 use Illuminate\Support\Str;
 
 use App\Filament\Resources\CategoryResource\Pages;
@@ -113,7 +114,7 @@ class CategoryResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ProductsRelationManager::class
         ];
     }
 
