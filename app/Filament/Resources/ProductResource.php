@@ -38,7 +38,7 @@ class ProductResource extends Resource
     protected static ?string $navigationGroup = 'shop';
     protected static ?int $navigationSort = 0;
 
-    protected static ?string $recordTitleAttributef = 'name';
+    protected static ?string $recordTitleAttribute = 'name';
     public static function getNavigationbadge(): ?string
     {
         return static::getModel()::count();
@@ -111,7 +111,13 @@ class ProductResource extends Resource
                                 ->directory('form-attachment')
                         ])->collapsible(),
                     Section::make('associations')->schema([
-                        Select::make('brand_id')->relationship('brand', 'name')
+                        Select::make('brand_id')
+                            ->relationship('brand', 'name')
+                            ->required(),
+                        Select::make('categories')
+                            ->relationship('categories', 'name')
+                            ->multiple()
+                            ->required(),
                     ])
                 ])
             ]);

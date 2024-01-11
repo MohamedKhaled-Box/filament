@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\BrandResource\RelationManagers\ProductsRelationManager;
 use Illuminate\Support\Str;
 
 
@@ -124,7 +125,7 @@ class BrandResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ProductsRelationManager::class,
         ];
     }
 
