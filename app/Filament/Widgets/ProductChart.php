@@ -9,6 +9,8 @@ use Filament\Widgets\ChartWidget;
 class ProductChart extends ChartWidget
 {
     protected static ?string $heading = 'Chart';
+    protected static ?int $sort = 3;
+
 
     protected function getData(): array
     {
@@ -16,11 +18,11 @@ class ProductChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Blog posts created',
+                    'label' => 'Products created per month',
                     'data' => $data['productsPerMonth']
                 ],
             ],
-            'labels' => $data['months']
+            'labels' => $data['months'],
         ];
     }
 
@@ -34,7 +36,9 @@ class ProductChart extends ChartWidget
         $productsPerMonth = [];
         $months = collect(range(1, 12))->map(function ($month) use ($now, $productsPerMonth) {
             $count = Product::whereMonth('created_at', Carbon::parse($now->month($month)->format('Y-m')))->count();
+
             $productsPerMonth[] = $count;
+
             return $now->month($month)->format('M');
         })->toArray();
         return [

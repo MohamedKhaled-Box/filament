@@ -15,6 +15,7 @@ class StatsOverview extends BaseWidget
     protected static ?string $pollingInterval = '15s';
     //lazy load default is true
     protected static ?string $islazy = 'false';
+    protected static ?int $sort = 2;
     protected function getStats(): array
     {
         return [
