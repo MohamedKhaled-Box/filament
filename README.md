@@ -11,8 +11,8 @@ Welcome to the Filament Products Orders project. This application is designed to
 - **Responsive Design**: Optimized for both desktop and mobile devices.
 
 ## Screenshots
-### Home Page
-![Home Page](https://www.behance.net/gallery/200558859/filament-prodcuts)
+https://www.behance.net/gallery/200558859/filament-prodcuts
+
 
 ## Installation
 To run this project locally, follow these steps:
