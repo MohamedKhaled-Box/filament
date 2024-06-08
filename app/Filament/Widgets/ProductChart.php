@@ -15,6 +15,7 @@ class ProductChart extends ChartWidget
     protected function getData(): array
     {
         $data = $this->getProductsPerMonth();
+
         return [
             'datasets' => [
                 [
@@ -34,12 +35,15 @@ class ProductChart extends ChartWidget
     {
         $now = Carbon::now();
         $productsPerMonth = [];
-        $months = collect(range(1, 12))->map(function ($month) use ($now, $productsPerMonth) {
-            $count = Product::whereMonth('created_at', Carbon::parse($now->month($month)->format('Y-m')))->count();
+
+        $months = collect(range(1, 12))->map(function ($month) use ($now, &$productsPerMonth) {
+            $startOfMonth = $now->copy()->month($month)->startOfMonth();
+            $endOfMonth = $now->copy()->month($month)->endOfMonth();
+            $count = Product::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
 
             $productsPerMonth[] = $count;
 
-            return $now->month($month)->format('M');
+            return $startOfMonth->format('M');
         })->toArray();
         return [
             'productsPerMonth' => $productsPerMonth,

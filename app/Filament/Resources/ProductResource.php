@@ -107,6 +107,7 @@ class ProductResource extends Resource
                             FileUpload::make('image')
                                 ->image()
                                 ->imageEditor()
+                                ->nullable()
                                 ->preserveFilenames()
                                 ->directory('form-attachment')
                         ])->collapsible(),
