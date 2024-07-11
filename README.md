@@ -53,11 +53,6 @@ To run this project locally, follow these steps:
 1. Log in with admin credentials.
 2. Manage products: Add, edit, or delete products.
 3. View and process orders.
-
-
-## License
-This project is licensed under the MIT License.
-
 ---
 
 *Note: This project is a demo for showcasing my skills and adding to my CV. The images used are placeholders from an external site.*
